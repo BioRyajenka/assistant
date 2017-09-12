@@ -6,8 +6,6 @@ import os
 from tinydb import TinyDB, Query
 
 class Cli(cmd.Cmd):
-    #add_pattern = re.compile('')
-
     def __init__(self):
         cmd.Cmd.__init__(self)
         self.prompt = "> "
