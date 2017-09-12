@@ -3,10 +3,11 @@
 import cmd
 import re
 import os
+import sys
 from tinydb import TinyDB, Query
 
 class Cli(cmd.Cmd):
-    def __init__(self):
+    def __init__(self, dbname):
         cmd.Cmd.__init__(self)
         self.prompt = "> "
         self.intro = "Hello\nType 'help' for help"
@@ -21,7 +22,7 @@ class Cli(cmd.Cmd):
                          'rm' : self.do_remove
                        }
 
-        self.db = TinyDB('db.json')
+        self.db = TinyDB(dbname)
 
     def do_quit(self, line):
         '''Exit the program.'''
@@ -112,7 +113,12 @@ class Cli(cmd.Cmd):
 
 
 def main():
-    cli = Cli()
+    if len(sys.argv) != 2:
+        print('Wrong arguments. Usage: \'{} dbname.json\''.format(sys.argv[0]))
+        return False
+
+    dbname = sys.argv[1]
+    cli = Cli(dbname)
     try:
         cli.cmdloop()
     except KeyboardInterrupt:
